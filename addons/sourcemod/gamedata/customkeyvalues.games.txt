@@ -1,0 +1,14 @@
+"Games"
+{
+	"csgo"
+	{
+		"Offsets"
+		{
+			"CBaseEntity::KeyValue"
+			{
+				"windows"	"35"
+				"linux"		"36"
+			}
+		}
+	}
+}

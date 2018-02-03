@@ -60,7 +60,7 @@ bool CustomKeyValues::SDK_OnLoad( char* error, size_t maxlength, bool late )
 	IGameConfig* cfg;
 
 	char conf_error[255];
-	if( !gameconfs->LoadGameConfigFile( "custom-keyvalues.games", &cfg, conf_error, sizeof( conf_error ) ) )
+	if( !gameconfs->LoadGameConfigFile( "customkeyvalues.games", &cfg, conf_error, sizeof( conf_error ) ) )
 	{
 		if( conf_error[0] )
 			snprintf( error, maxlength, "Could not read config file custom-keyvalues.games.txt: %s", conf_error );
