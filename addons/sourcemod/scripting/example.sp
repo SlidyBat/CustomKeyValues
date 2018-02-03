@@ -1,6 +1,3 @@
-#pragma semicolon 1
-#pragma newdecls required
-
 #include <sourcemod>
 #include <customkeyvalues>
 
@@ -9,7 +6,8 @@ public void OnPluginStart()
     RegConsoleCmd( "sm_test", Command_Test );
 }
 
-/* worldspawn in bsp entity lump:
+/*
+worldspawn in bsp entity lump:
 		"world_maxs" "0 1536 576"
 		"world_mins" "-2048 -512 64"
 		"skyname" "sky_dust"
@@ -26,11 +24,11 @@ public void OnPluginStart()
 
 public Action Command_Test( int client, int args )
 {
-    char tier[8];
-    bool success = GetCustomKeyValue( 0, "mod_tier", tier, sizeof( tier ) );
-    PrintToServer( "Map tier: %i (%s)", StringToInt( tier ), success ? "success" : "failure" );
-    
+	char tier[8];
+	bool success = GetCustomKeyValue( 0, "mod_tier", tier, sizeof( tier ) );
+	PrintToServer( "Map tier: %i (%s)", StringToInt( tier ), success ? "success" : "failure" );
+	
 	// output: "Map tier: 3 (success)"
 	
-    return Plugin_Handled;
+	return Plugin_Handled;
 }
