@@ -46,10 +46,12 @@ SMEXT_LINK( &g_CustomKeyValues );
 SH_DECL_MANUALHOOK2( MHook_KeyValue, 0, 0, 0, bool, const char*, const char* );
 
 static cell_t Native_GetCustomKeyValue( IPluginContext* pContext, const cell_t* params );
+static cell_t Native_SetCustomKeyValue( IPluginContext* pContext, const cell_t* params );
 
 const sp_nativeinfo_t g_MyNatives[] = 
 {
 	{ "GetCustomKeyValue", Native_GetCustomKeyValue },
+	{ "SetCustomKeyValue", Native_SetCustomKeyValue },
 	{ NULL, NULL }
 };
 
@@ -192,6 +194,42 @@ cell_t Native_GetCustomKeyValue( IPluginContext* pContext, const cell_t* params 
 	char* value;
 	pContext->LocalToString( params[3], &value );
 	ke::SafeStrcpy( value, params[4], entry->GetValue().c_str() );
+
+	return 1;
+}
+
+// native void SetCustomKeyValue( int entity, const char[] key, const char[] value );
+cell_t Native_SetCustomKeyValue( IPluginContext* pContext, const cell_t* params )
+{
+	char* key;
+	pContext->LocalToString( params[2], &key );
+	char* value;
+	pContext->LocalToString( params[3], &value );
+
+	int ref = gamehelpers->IndexToReference( params[1] );
+
+	auto i = g_CustomKeyValues.m_CustomKVCache.find( ref );
+	if( i == g_CustomKeyValues.m_CustomKVCache.end() )
+	{
+		g_CustomKeyValues.m_CustomKVCache.emplace( ref, std::vector<CustomKeyValues::Entry>{ CustomKeyValues::Entry( key, value ) } );
+		return 1;
+	}
+
+	std::vector<CustomKeyValues::Entry>& entityKeyValues = i->second;
+
+	auto entry = std::find_if( entityKeyValues.begin(), entityKeyValues.end(), [key]( const CustomKeyValues::Entry& e )
+	{
+		return e.GetKey() == key;
+	} );
+
+	if( entry == entityKeyValues.end() )
+	{
+		entityKeyValues.emplace_back( key, value );
+	}
+	else
+	{
+		entry->SetValue( value );
+	}
 
 	return 1;
 }

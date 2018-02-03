@@ -148,6 +148,10 @@ public:
 		{
 			return value;
 		}
+		void SetValue( const std::string& val )
+		{
+			value = val;
+		}
 	private:
 		std::string key;
 		std::string value;
