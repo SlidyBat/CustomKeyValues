@@ -101,7 +101,6 @@ bool CustomKeyValues::SDK_OnMetamodLoad( ISmmAPI* ismm, char* error, size_t maxl
 
 void CustomKeyValues::OnLevelInit( const char* pMapName, const char* pMapEntities, const char* pOldLevel, const char* pLandmarkName, bool loadGame, bool background )
 {
-	g_pSM->LogMessage( myself, "Cleared custom keyvalue cache" );
 	m_CustomKVCache.clear();
 }
 
