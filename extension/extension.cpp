@@ -65,7 +65,7 @@ bool CustomKeyValues::SDK_OnLoad( char* error, size_t maxlength, bool late )
 	if( !gameconfs->LoadGameConfigFile( "customkeyvalues.games", &cfg, conf_error, sizeof( conf_error ) ) )
 	{
 		if( conf_error[0] )
-			snprintf( error, maxlength, "Could not read config file custom-keyvalues.games.txt: %s", conf_error );
+			snprintf( error, maxlength, "Could not read config file customkeyvalues.games.txt: %s", conf_error );
 
 		return false;
 	}
@@ -86,7 +86,7 @@ bool CustomKeyValues::SDK_OnLoad( char* error, size_t maxlength, bool late )
 
 	gameconfs->CloseGameConfigFile( cfg );
 
-	sharesys->RegisterLibrary( myself, "custom-keyvalues" );
+	sharesys->RegisterLibrary( myself, "customkeyvalues" );
 
 	return true;
 }
