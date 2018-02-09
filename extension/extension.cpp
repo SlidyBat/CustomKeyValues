@@ -67,7 +67,6 @@ bool CustomKeyValues::SDK_OnLoad( char* error, size_t maxlength, bool late )
 		if( conf_error[0] )
 			snprintf( error, maxlength, "Could not read config file custom-keyvalues.games.txt: %s", conf_error );
 
-		gameconfs->CloseGameConfigFile( cfg );
 		return false;
 	}
 
@@ -170,7 +169,14 @@ bool CustomKeyValues::Hook_KeyValue( const char* key, const char* value )
 // native bool GetCustomKeyValue( int entity, const char[] key, char[] value, int maxlen );
 cell_t Native_GetCustomKeyValue( IPluginContext* pContext, const cell_t* params )
 {
-	auto i = g_CustomKeyValues.m_CustomKVCache.find( gamehelpers->IndexToReference( params[1] ) );
+	int ref = gamehelpers->IndexToReference( params[1] );
+	if( ref == INVALID_EHANDLE_INDEX )
+	{
+		pContext->ThrowNativeError( "Invalid entity %i", params[1] );
+	}
+
+	auto i = g_CustomKeyValues.m_CustomKVCache.find( ref );
+
 	if( i == g_CustomKeyValues.m_CustomKVCache.end() )
 	{
 		return 0; // entity passed in does not exist in cache
@@ -200,12 +206,16 @@ cell_t Native_GetCustomKeyValue( IPluginContext* pContext, const cell_t* params 
 // native void SetCustomKeyValue( int entity, const char[] key, const char[] value );
 cell_t Native_SetCustomKeyValue( IPluginContext* pContext, const cell_t* params )
 {
+	int ref = gamehelpers->IndexToReference( params[1] );
+	if( ref == INVALID_EHANDLE_INDEX )
+	{
+		pContext->ThrowNativeError( "Invalid entity %i", params[1] );
+	}
+
 	char* key;
 	pContext->LocalToString( params[2], &key );
 	char* value;
 	pContext->LocalToString( params[3], &value );
-
-	int ref = gamehelpers->IndexToReference( params[1] );
 
 	auto i = g_CustomKeyValues.m_CustomKVCache.find( ref );
 	if( i == g_CustomKeyValues.m_CustomKVCache.end() )
