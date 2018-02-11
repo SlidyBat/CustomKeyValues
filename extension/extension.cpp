@@ -31,7 +31,6 @@
 
 #include "extension.h"
 #include <algorithm>
-#include <amtl/am-string.h>
 
 /**
  * @file extension.cpp
@@ -195,10 +194,8 @@ cell_t Native_GetCustomKeyValue( IPluginContext* pContext, const cell_t* params 
 	{
 		return 0;
 	}
-	
-	char* value;
-	pContext->LocalToString( params[3], &value );
-	ke::SafeStrcpy( value, params[4], entry->GetValue().c_str() );
+
+	pContext->StringToLocal( params[3], params[4], entry->GetValue().c_str() );
 
 	return 1;
 }
