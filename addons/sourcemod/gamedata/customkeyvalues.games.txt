@@ -11,4 +11,15 @@
 			}
 		}
 	}
+	"tf"
+	{
+		"Offsets"
+		{
+			"CBaseEntity::KeyValue"
+			{
+				"windows"	"31"
+				"linux"		"30"
+			}
+		}
+	}
 }
